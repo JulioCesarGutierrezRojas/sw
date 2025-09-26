@@ -12,4 +12,8 @@ if ("serviceWorker" in navigator) {
             .then(reg => logEvent("Service Worker registrado"))
             .catch(err => logEvent("Error en el registro: " + err));
     });
+
+    navigator.serviceWorker.addEventListener("message", event => {
+        logEvent(event.data);
+    });
 }
