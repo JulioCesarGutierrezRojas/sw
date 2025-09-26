@@ -6,37 +6,30 @@ function sendMessage(msg) {
 
 // 📌 Instalación
 self.addEventListener("install", event => {
-    sendMessage("Ciclo de vida → Instalación iniciada");
-    event.waitUntil(
-        (async () => {
-            sendMessage("Ciclo de vida → Instalación completada");
-            self.skipWaiting();
-        })()
-    );
+    sendMessage("Ciclo de vida → Instalación");
+    event.waitUntil(self.skipWaiting());
 });
 
 // 📌 Activación
 self.addEventListener("activate", event => {
-    sendMessage("Ciclo de vida → Activación en proceso");
+    sendMessage("Ciclo de vida → Activación");
     event.waitUntil(
         (async () => {
-            sendMessage("Ciclo de vida → Activado correctamente");
             await self.clients.claim();
+            sendMessage("Ciclo de vida → Activado");
         })()
     );
 });
 
-// 📌 Fetch (despierta al SW desde ocioso)
-self.addEventListener("fetch", event => {
-    sendMessage("Ciclo de vida → Reanudado desde ocioso (evento fetch)");
+// 📌 Eventos que implican salir del estado ocioso
+self.addEventListener("fetch", () => {
+    sendMessage("Ciclo de vida → Ocioso (despertado por fetch)");
 });
 
-// 📌 Sync (ejemplo si se usa Background Sync)
 self.addEventListener("sync", event => {
-    sendMessage(`Ciclo de vida → Reanudado desde ocioso (evento sync: ${event.tag})`);
+    sendMessage(`Ciclo de vida → Ocioso (despertado por sync: ${event.tag})`);
 });
 
-// 📌 Push (si registras push notifications)
-self.addEventListener("push", event => {
-    sendMessage("Ciclo de vida → Reanudado desde ocioso (evento push)");
+self.addEventListener("push", () => {
+    sendMessage("Ciclo de vida → Ocioso (despertado por push)");
 });
