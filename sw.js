@@ -6,33 +6,31 @@ function sendMessage(msg) {
     });
 }
 
-// Instalación
+// 📌 Instalación
 self.addEventListener("install", event => {
     sendMessage("Instalación iniciada");
     event.waitUntil(
-        new Promise(resolve => {
-            setTimeout(() => {
-                sendMessage("Instalación completada");
-                resolve();
-            }, 1000);
-        })
+        (async () => {
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            sendMessage("Instalación completada");
+            self.skipWaiting();
+        })()
     );
 });
 
-// Activación
+// 📌 Activación
 self.addEventListener("activate", event => {
     sendMessage("Activando Service Worker...");
     event.waitUntil(
-        new Promise(resolve => {
-            setTimeout(() => {
-                sendMessage("Activado correctamente");
-                resolve();
-            }, 1000);
-        })
+        (async () => {
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            sendMessage("Activado correctamente");
+            await self.clients.claim();
+        })()
     );
 });
 
-// Ciclo de vida - Ocioso simulado
+// 📌 Ciclo de vida - Ocioso simulado
 let idleCount = 0;
 function simulateIdle() {
     idleCount++;
