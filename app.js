@@ -8,7 +8,7 @@ function logEvent(msg) {
 
 if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
-        navigator.serviceWorker.register("sw.js")
+        navigator.serviceWorker.register("./sw.js")
             .then(reg => logEvent("Service Worker registrado"))
             .catch(err => logEvent("Error en el registro: " + err));
     });
